@@ -2,8 +2,6 @@ var arDrone = require('ar-drone')
 var tty = require('tty')
 var client = arDrone.createClient()
 
-// client.on('navdata', console.log.bind(console))
-
 client.disableEmergency()
 client.stop()
 // client.takeoff()
@@ -104,51 +102,53 @@ process.stdin.on('data', function(chunk) {
 })
 
 function changeRotation (val) {
-  rot += val
+  if (val < 0 && rot > 0 || val > 0 && rot < 0) {
+    rot = 0
+  } else {
+    rot += val
+  }
+
   if (rot > 1) rot = 1
   if (rot < -1) rot = -1
 
-  if (rot >= 0) {
-    client.clockwise(rot)
-  } else {
-    client.counterClockwise(rot * -1)
-  }
+  client.clockwise(rot)
 }
 
 function changeX(val) {
-  x += val
+  if (val < 0 && x > 0 || val > 0 && x < 0) {
+    x = 0
+  } else {
+    x += val
+  }
+
   if (x > 1) x = 1
   if (x < -1) x = -1
 
-  if (x >= 0) {
-    client.right(x)
-  } else {
-    client.left(x * -1)
-  }
+  client.front(x)
 }
 
 function changeY(val) {
-  y += val
+  if (val < 0 && y > 0 || val > 0 && y < 0) {
+    y = 0
+  } else {
+    y += val
+  }
+
   if (y > 1) y = 1
   if (y < -1) y = -1
 
-  console.log(y)
-  if (y >= 0) {
-    client.front(y)
-  } else {
-    client.back(y * -1)
-  }
+  client.right(y)
 }
 
 function changeZ(val) {
-  z += val
+  if (val < 0 && z > 0 || val > 0 && z < 0) {
+    z = 0
+  } else {
+    z += val
+  }
+
   if (z > 1) z = 1
   if (z < -1) z = -1
 
-  console.log(z)
-  if (z >= 0) {
-    client.up(z)
-  } else {
-    client.down(z * -1)
-  }
+  client.up(z)
 }
