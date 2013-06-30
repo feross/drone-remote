@@ -6,7 +6,7 @@ var client = arDrone.createClient()
 
 client.disableEmergency()
 client.stop()
-client.takeoff()
+// client.takeoff()
 
 client.on('batteryChange', function (num) {
   console.log('battery: ' + num)
